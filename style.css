@@ -1,0 +1,210 @@
+/* Import font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f7e0e4; /* Latar belakang pink lembut */
+    font-family: 'Quicksand', sans-serif;
+    color: #4a4a4a;
+    flex-direction: column;
+    overflow: hidden; /* Mencegah scroll jika konten sedikit berlebih */
+    padding: 10px; /* Sedikit padding di body untuk mobile */
+    box-sizing: border-box;
+}
+
+.container {
+    padding: 20px;
+    text-align: center;
+    max-width: 90%;
+    width: 100%; /* Agar bisa menggunakan max-width dengan lebih baik */
+    animation: fadeIn 1s ease-out;
+}
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 2.8em; /* Ukuran disesuaikan agar lebih mobile friendly dari awal */
+    color: #e60000; /* Warna merah */
+    margin-bottom: 25px;
+    text-shadow: none;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Penting untuk alignment vertikal tombol jika tingginya berbeda */
+    gap: 15px; /* Jarak antar tombol */
+    flex-wrap: wrap; /* Izinkan tombol wrap jika tidak cukup ruang */
+}
+
+/* Tombol Yes */
+.yes-button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background-color: #4CAF50; /* Warna hijau */
+    color: white;
+    font-size: 1.4em; /* Ukuran font awal, sedikit lebih kecil dari h1 */
+    padding: 12px 28px; /* Padding awal, sesuaikan untuk rasio yang baik */
+    /* Tidak ada height tetap, agar bisa tumbuh */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transisi lebih smooth untuk semua perubahan */
+    min-width: 90px; /* Lebar minimal awal */
+    line-height: 1.3; /* Untuk membantu jika teks jadi multi-baris saat membesar */
+}
+
+.yes-button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Tombol No */
+.no-button {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background-color: #F44336; /* Warna merah */
+    color: white;
+    font-size: 1.2em; /* Font sedikit lebih kecil dari Yes, atau samakan jika mau */
+    height: 55px;     /* TINGGI TETAP untuk tombol "No" - sesuaikan nilainya */
+    padding: 0 20px;  /* Padding horizontal. Padding vertikal diatur oleh height + align-items */
+    /* Tidak ada width tetap, agar lebar menyesuaikan teks */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Transisi untuk hover */
+    min-width: 120px; /* Lebar minimal agar tidak terlalu ciut untuk teks "No" awal */
+    line-height: 1.3;
+}
+
+.no-button:hover {
+    background-color: #e53935;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    /* Tidak ada transform agar tetap diam */
+}
+
+.gif_container {
+    margin-top: 25px;
+    width: 100%;
+    height: 230px; /* Beri tinggi tetap agar layout tidak banyak berubah saat GIF ada */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gif_container img {
+    max-width: 100%;
+    max-height: 230px;
+    height: auto; /* Jaga rasio aspek GIF */
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* Keyframes untuk animasi fade-in container */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries untuk responsivitas */
+@media (min-width: 601px) and (max-width: 768px) { /* Tablet */
+    h1 {
+        font-size: 3em; /* Sedikit lebih besar untuk tablet */
+    }
+    .yes-button {
+        font-size: 1.5em;
+        padding: 14px 30px;
+    }
+    .no-button {
+        font-size: 1.3em;
+        height: 60px;
+        padding: 0 22px;
+        min-width: 130px;
+    }
+    .gif_container {
+        height: 280px;
+    }
+    .gif_container img {
+        max-height: 280px;
+    }
+}
+
+
+@media (max-width: 600px) { /* Mobile */
+    h1 {
+        font-size: 2.2em; /* Lebih kecil untuk mobile */
+        margin-bottom: 20px;
+    }
+    .buttons {
+        flex-direction: column; /* Tombol jadi vertikal */
+        gap: 12px;
+        align-items: center; /* Tombol ditengahkan */
+    }
+    .yes-button, .no-button {
+        font-size: 1.1em; /* Ukuran font lebih kecil di mobile */
+        width: 75%; /* Tombol mengisi sebagian besar lebar */
+        max-width: 280px; /* Batas maksimal agar tidak terlalu lebar */
+        /* Untuk .no-button, width: 75% akan menimpa min-width jika lebih besar */
+        /* Untuk .yes-button, width juga jadi 75%, pertumbuhannya akan dalam batas ini */
+    }
+    .yes-button {
+        padding: 10px 15px; /* Padding disesuaikan untuk mobile */
+        /* Pertumbuhan ukuran font akan membuat tombol ini lebih tinggi/lebar dalam batas width 75% */
+    }
+    .no-button {
+        height: 50px; /* Tinggi No button disesuaikan untuk mobile kecil */
+        padding: 0 15px; /* Padding horizontal di mobile */
+    }
+    .gif_container {
+        height: 200px; /* Tinggi kontainer GIF di mobile */
+        margin-top: 20px;
+    }
+    .gif_container img {
+        max-height: 200px; /* Max tinggi GIF di mobile */
+    }
+}
+
+@media (max-width: 360px) { /* Very small mobile */
+     h1 {
+        font-size: 1.9em;
+    }
+    .yes-button, .no-button {
+        font-size: 1em;
+        width: 85%;
+    }
+    .no-button {
+        height: 45px;
+    }
+     .gif_container {
+        height: 170px;
+    }
+    .gif_container img {
+        max-height: 170px;
+    }
+}

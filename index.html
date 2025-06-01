@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>knock knock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Umum dan Awal */
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            transition: background-color 0.5s ease; /* Transisi background jika berubah */
+        }
+
+        /* --- BAGIAN KALKULATOR --- */
+        #calculatorSection {
+            display: flex; /* Awalnya terlihat */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0e0e0; /* Background awal untuk kalkulator */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .kalkulator {
+            width: 320px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background-color: #3a3a3a;
+            overflow: hidden;
+        }
+
+        .layar-display {
+            background-color: #282828;
+            color: white;
+            font-size: 2.8em;
+            padding: 25px 20px;
+            text-align: right;
+            min-height: 60px;
+            box-sizing: border-box;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            font-family: 'Courier New', Courier, monospace; /* Font khas display */
+        }
+
+        .tombol-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: #222;
+        }
+
+        .tombol-grid button {
+            background-color: #505050;
+            color: white;
+            border: none;
+            padding: 22px 0;
+            font-size: 1.5em;
+            font-family: 'Quicksand', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            outline: none;
+        }
+        .tombol-grid button:hover { background-color: #686868; }
+        .tombol-grid button:active { background-color: #7a7a7a; }
+        .tombol-grid .fungsi { background-color: #404040; }
+        .tombol-grid .fungsi:hover { background-color: #585858; }
+        .tombol-grid .operator { background-color: #ff9500; color: white; }
+        .tombol-grid .operator:hover { background-color: #e08500; }
+        .tombol-grid .operator:active { background-color: #cc7700; }
+        .tombol-grid .equals { background-color: #ff9500; grid-column: span 2; }
+        .tombol-grid .equals:hover { background-color: #e08500; }
+        .tombol-grid .equals:active { background-color: #cc7700; }
+        .tombol-grid .nol { grid-column: span 2; }
+
+        /* --- BAGIAN "WILL YOU FORGIVE ME?" --- */
+        #forgiveMeSection {
+            display: none; /* Awalnya disembunyikan */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f7e0e4; /* Background pink lembut (seperti di style.css aslimu) */
+            flex-direction: column; /* Agar kontennya ditata vertikal */
+        }
+
+        /* Ambil style dari style.css "Will you forgive me?" mu */
+        #forgiveMeSection .container {
+            padding: 20px;
+            text-align: center;
+            max-width: 90%;
+            /* Jika ada animasi fadeIn di container-nya, akan otomatis berjalan saat section muncul */
+            animation: fadeInForgiveMe 1s ease-out 0.5s; /* Tambah delay sedikit */
+            animation-fill-mode: both; /* Agar style akhir animasi tetap */
+            opacity: 0; /* Mulai dari transparan untuk animasi */
+        }
+
+        @keyframes fadeInForgiveMe {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #forgiveMeSection h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 3.5em; /* Sesuaikan dengan style.css aslimu */
+            color: #e60000;
+            margin-bottom: 30px;
+            text-shadow: none;
+        }
+
+        #forgiveMeSection .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        #forgiveMeSection .yes-button, #forgiveMeSection .no-button {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 500;
+            font-size: 1.5em; /* Sesuaikan */
+            padding: 10px 25px; /* Sesuaikan */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease-out; /* Transisi untuk Yes button growth */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        #forgiveMeSection .yes-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #forgiveMeSection .yes-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #forgiveMeSection .no-button {
+            background-color: #F44336;
+            color: white;
+            /* Untuk No button, tinggi tetap dan lebar adaptif */
+            height: 60px; /* Sesuaikan dengan style.css aslimu */
+            display: inline-flex; /* Agar align-items bekerja */
+            align-items: center;
+            justify-content: center;
+            min-width: 130px; /* Sesuaikan */
+        }
+        #forgiveMeSection .no-button:hover {
+            background-color: #e53935;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        #forgiveMeSection .gif_container {
+            margin-top: 30px;
+            width: 100%;
+            height: 250px; /* Sesuaikan */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #forgiveMeSection .gif_container img {
+            max-width: 100%;
+            max-height: 250px; /* Sesuaikan */
+            height: auto;
+        }
+
+        /* Media Queries dari style.css "Will you forgive me?" bisa ditambahkan di sini jika perlu */
+        @media (max-width: 600px) {
+            #forgiveMeSection h1 { font-size: 2.2em; }
+            #forgiveMeSection .buttons { flex-direction: column; gap: 12px; }
+            #forgiveMeSection .yes-button, #forgiveMeSection .no-button { width: 75%; max-width: 280px; font-size: 1.2em; }
+            #forgiveMeSection .no-button { height: 50px; }
+            #forgiveMeSection .gif_container { height: 200px; }
+            #forgiveMeSection .gif_container img { max-height: 200px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="calculatorSection">
+        <div class="kalkulator">
+            <div class="layar-display">
+                <span id="displayOutput">0</span>
+            </div>
+            <div class="tombol-grid">
+                <button class="fungsi" data-action="clear">C</button>
+                <button class="fungsi" data-action="toggleSign">+/-</button>
+                <button class="fungsi" data-action="percentage">%</button>
+                <button class="operator" data-action="divide" aria-label="Bagi">/</button>
+                <button data-number="7">7</button>
+                <button data-number="8">8</button>
+                <button data-number="9">9</button>
+                <button class="operator" data-action="multiply" aria-label="Kali">*</button>
+                <button data-number="4">4</button>
+                <button data-number="5">5</button>
+                <button data-number="6">6</button>
+                <button class="operator" data-action="subtract" aria-label="Kurang">-</button>
+                <button data-number="1">1</button>
+                <button data-number="2">2</button>
+                <button data-number="3">3</button>
+                <button class="operator" data-action="add" aria-label="Tambah">+</button>
+                <button class="nol" data-number="0">0</button>
+                <button data-action="decimal">.</button>
+                <button class="equals" data-action="calculate">=</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="forgiveMeSection">
+        <div class="container"> <h1>Will you forgive me?</h1> <div class="buttons">
+                <button id="yesBtnValentine" class="yes-button">Yes</button> <button id="noBtnValentine" class="no-button">No</button>   </div>
+            <div class="gif_container">
+                <img id="valentineGif" src="images/cute-cat.gif" alt="Cute GIF">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SCRIPT UNTUK KALKULATOR SPESIAL ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const displayOutputElement = document.getElementById('displayOutput');
+            const tombolGrid = document.querySelector('#calculatorSection .tombol-grid'); // Lebih spesifik
+            const calculatorSection = document.getElementById('calculatorSection');
+            const forgiveMeSection = document.getElementById('forgiveMeSection');
+
+            let currentDisplayValue = '0';
+            let waitingForSecondOperand = false;
+
+            function updateDisplay() {
+                if (displayOutputElement) {
+                    displayOutputElement.textContent = currentDisplayValue;
+                }
+            }
+
+            function appendNumber(numberString) {
+                if (currentDisplayValue === '0' || currentDisplayValue === "i micccuuu" || waitingForSecondOperand) {
+                    currentDisplayValue = numberString;
+                    waitingForSecondOperand = false;
+                } else {
+                    if (currentDisplayValue.length < 16) {
+                        currentDisplayValue += numberString;
+                    }
+                }
+            }
+
+            function clearDisplay() {
+                currentDisplayValue = '0';
+            }
+
+            function showSpecialMessageAndTransition() {
+                currentDisplayValue = "i micccuuu";
+                updateDisplay(); // Tampilkan pesan "i miccuu" di kalkulator
+
+                // Tunggu sebentar agar pesan terlihat, lalu transisi
+                setTimeout(() => {
+                    if (calculatorSection) calculatorSection.style.display = 'none';
+                    if (forgiveMeSection) {
+                        forgiveMeSection.style.display = 'flex'; // Atau 'block', sesuai styling awal section
+                        // Jika body background perlu berubah:
+                        document.body.style.backgroundColor = '#f7e0e4';
+                        // Re-trigger animasi jika ada di container di dalamnya
+                        const forgiveMeContainer = forgiveMeSection.querySelector('.container');
+                        if (forgiveMeContainer) {
+                            forgiveMeContainer.style.opacity = '0'; // Reset opacity
+                            // Memicu reflow untuk memastikan animasi berjalan
+                            void forgiveMeContainer.offsetWidth; 
+                            forgiveMeContainer.style.animation = 'fadeInForgiveMe 1s ease-out 0.3s forwards';
+                            forgiveMeContainer.style.opacity = '1'; // Set opacity setelah animasi dimulai
+                        }
+                    }
+                }, 1500); // Delay 1.5 detik sebelum transisi
+            }
+
+            function appendOperator(operatorSymbol) {
+                if (currentDisplayValue === "i micccuuu") return;
+                currentDisplayValue = currentDisplayValue.trim().replace(/ [\+\-\*\/]$/, '').trim();
+                currentDisplayValue += ` ${operatorSymbol} `;
+                waitingForSecondOperand = true;
+            }
+            
+            function handleDecimal() {
+                if (waitingForSecondOperand) {
+                    currentDisplayValue = '0.';
+                    waitingForSecondOperand = false;
+                    return;
+                }
+                if (!currentDisplayValue.includes('.') && currentDisplayValue !== "i micccuuu") {
+                    currentDisplayValue += '.';
+                }
+            }
+            
+            function toggleSign() {
+                if (currentDisplayValue !== '0' && currentDisplayValue !== "i micccuuu" && !isNaN(parseFloat(currentDisplayValue))) {
+                    currentDisplayValue = (parseFloat(currentDisplayValue) * -1).toString();
+                }
+            }
+
+            function percentage() {
+                if (currentDisplayValue !== '0' && currentDisplayValue !== "i micccuuu" && !isNaN(parseFloat(currentDisplayValue))) {
+                     currentDisplayValue += '%';
+                }
+            }
+
+            if (tombolGrid) { // Pastikan tombolGrid ada sebelum pasang listener
+                tombolGrid.addEventListener('click', (event) => {
+                    if (!event.target.matches('button')) return;
+                    const button = event.target;
+                    const action = button.dataset.action;
+                    const number = button.dataset.number;
+                    const operatorSymbol = button.textContent;
+
+                    if (number !== undefined) appendNumber(number);
+                    else if (action === 'decimal') handleDecimal();
+                    else if (action === 'clear') clearDisplay();
+                    else if (action === 'calculate') showSpecialMessageAndTransition(); // Panggil fungsi transisi
+                    else if (button.classList.contains('operator')) appendOperator(operatorSymbol.trim());
+                    else if (action === 'toggleSign') toggleSign();
+                    else if (action === 'percentage') percentage();
+                    updateDisplay();
+                });
+            }
+            updateDisplay(); // Panggil di awal untuk kalkulator
+
+            // --- SCRIPT UNTUK "WILL YOU FORGIVE ME?" ---
+            // Pastikan ID tombol di HTML forgiveMeSection (yesBtnValentine, noBtnValentine) sudah benar
+            const yesBtnValentine = document.getElementById('yesBtnValentine');
+            const noBtnValentine = document.getElementById('noBtnValentine');
+
+            // Pesan untuk tombol "No" di bagian "Forgive Me"
+            const forgiveMeMessages = [
+                "Are you sure?", "Really sure??", "Are you positive?", "Pookie please...",
+                "Just think about it!", "If you say no, I will be really sad...",
+                "I will be very sad...", "I will be very very very sad...",
+                "Ok fine, I will stop asking...", "Just kidding, say yes please! ❤️"
+            ];
+            let forgiveMeMessageIndex = 0;
+
+            function handleValentineNoClick() {
+                if (noBtnValentine && yesBtnValentine) {
+                    noBtnValentine.textContent = forgiveMeMessages[forgiveMeMessageIndex];
+                    forgiveMeMessageIndex = (forgiveMeMessageIndex + 1) % forgiveMeMessages.length;
+
+                    const currentYesFontSize = parseFloat(window.getComputedStyle(yesBtnValentine).fontSize);
+                    yesBtnValentine.style.fontSize = `${currentYesFontSize * 1.25}px`; // Pembesaran Yes button
+                    // Kamu bisa juga menambah padding Yes button di sini jika mau agar lebih besar
+                    let currentPadding = parseFloat(window.getComputedStyle(yesBtnValentine).paddingTop);
+                    if (!isNaN(currentPadding)) {
+                         yesBtnValentine.style.padding = `${currentPadding * 1.05}px ${parseFloat(window.getComputedStyle(yesBtnValentine).paddingLeft) * 1.1}px`;
+                    }
+                }
+            }
+
+            function handleValentineYesClick() {
+                window.location.href = "yes_page.html"; // Pastikan file ini ada
+            }
+
+            if (yesBtnValentine) {
+                yesBtnValentine.addEventListener('click', handleValentineYesClick);
+            }
+            if (noBtnValentine) {
+                noBtnValentine.addEventListener('click', handleValentineNoClick);
+            }
+        });
+    </script>
+
+</body>
+</html>
